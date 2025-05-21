@@ -28,7 +28,7 @@ for tabela, campo_data in tables.items():
     dfFiltrado = dfScylla.filter(col(campo_data) >= data_limite)
 
     # Exportar os dados filtrados para um arquivo Parquet
-    output_path = f"/sistemas/export/extract_scylla/{tabela}/"
+    output_path = f"dados/{tabela}/"
     dfFiltrado.write.parquet(output_path, mode="overwrite")
     print(f"Dados exportados com sucesso para {output_path}")
     

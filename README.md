@@ -77,16 +77,6 @@ docker exec spark-master spark-submit --packages com.datastax.spark:spark-cassan
 
 Os arquivos Parquet serão gerados em subdiretórios dentro de `/sistemas/spi/extract_scylla/<nome_da_tabela>/`.
 
-## Executando Outras Tarefas no Spark
-
-Os scripts Python para tarefas Spark estão localizados no diretório `./spark/jobs`. Exemplos de execução:
-
-```bash
-docker exec spark-master spark-submit --deploy-mode client ./jobs/projeto1-tarefa1.py
-docker exec spark-master spark-submit --deploy-mode client ./jobs/projeto1-tarefa2.py
-```
-Substitua o nome do arquivo para executar outras tarefas.
-
 ## Estrutura de Diretórios
 
 - **`scylladb-setup/`**: Configuração do ScyllaDB e scripts de inicialização.

@@ -51,9 +51,6 @@ O script `exportscylla.py` conecta ao ScyllaDB, lê os dados das tabelas configu
 2. **Verifique os arquivos Parquet gerados:**
    Os arquivos serão salvos no diretório `dados/` em subpastas para cada tabela.
 
-## Executando Outras Tarefas no Spark
-
-Para executar outros scripts PySpark presentes em `jobs/`, utilize:
 
 ```bash
 docker exec spark-master spark-submit --deploy-mode client ./jobs/projeto1-tarefa1.py
