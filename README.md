@@ -65,13 +65,7 @@ O script `exportscylla.py` realiza a extração dos dados das tabelas do ScyllaD
 
 ```python
 tables = {
-    'fiafoa': 'data_criacao',
-    'pix_cobranca_api': 'data_criacao',
-    'pix_cobranca_devolucao': 'data_criacao',
-    'pzdt004': 'data_criacao',
-    'pzdt014': 'data_criacao',
-    'pzdt015': 'data_criacao',
-    'pzdtfibfob': 'data_criacao'
+    'alunos': 'data_cadastro'
 }
 ```
 
