@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  scylladb:
+    build:
+      context: ./scylladb-setup
+      dockerfile: Dockerfile
+    container_name: scylla
+    command: --reactor-backend=epoll
+    ports:
+      - "9042:9042" # Porta padrão do ScyllaDB
+    networks:
+      - scylla-spark-network
+    healthcheck:
+      test: ["CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  spark-master:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+    container_name: spark-master
+    entrypoint: ['/opt/spark/entrypoint.sh', 'master']
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    volumes:
+      - ./spark/dados:/opt/spark/data
+      - ./spark/jobs:/opt/spark/apps
+      - ./spark/spark-logs:/opt/spark/spark-events
+    env_file:
+      - ./spark/.env.spark
+    ports:
+      - '9090:8080' # Spark UI
+      - '7077:7077' # Spark Master
+    networks:
+      - scylla-spark-network
+
+  spark-worker:
+    build:
+      context: ./spark
+      dockerfile: Dockerfile
+    container_name: spark-worker
+    entrypoint: ['/opt/spark/entrypoint.sh', 'worker']
+    depends_on:
+      - spark-master
+    env_file:
+      - ./spark/.env.spark
+    volumes:
+      - ./spark/dados:/opt/spark/data
+      - ./spark/jobs:/opt/spark/apps
+      - ./spark/spark-logs:/opt/spark/spark-events
+    networks:
+      - scylla-spark-network
+
+volumes:
+  spark-logs:
+
+networks:
+  scylla-spark-network:
+    driver: bridge
